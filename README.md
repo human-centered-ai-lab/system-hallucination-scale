@@ -40,7 +40,14 @@ Feedback, discussion, and contributions are welcome.
 
 ## License
 
-Please see the LICENSE file for usage terms.
+This repository uses dual licensing:
+
+- **Scale text** (questionnaire items, instructions, scoring descriptions): **CC BY-NC-ND 4.0**  
+  See [LICENSE-SCALE](LICENSE-SCALE) for details.  
+  You can share the scale for non-commercial purposes with attribution. Commercial use and modifications require separate permission.
+
+- **Code** (scripts, calculators, dashboards, notebooks): **Apache-2.0**  
+  See [LICENSE](LICENSE) for details.
 
 ---
 

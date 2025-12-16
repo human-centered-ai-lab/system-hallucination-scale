@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHS Calculator - Demo</title>
+  <link rel="stylesheet" href="shs-calculator.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+    .demo-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .demo-section h2 {
+      margin-top: 0;
+      color: #0aa8a7;
+    }
+    .code-block {
+      background: #f8f8f8;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+    .info-box {
+      background: #e0f2fe;
+      border-left: 4px solid #0aa8a7;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Subjective Hallucination Scale (SHS) Calculator - Demo</h1>
+
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <p>This is a simple example of the SHS calculator embedded in a page.</p>
+    <div id="shs-calculator-basic"></div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage Example</h2>
+    <p>To use the calculator in your own page:</p>
+    <div class="code-block">
+&lt;!-- Include CSS --&gt;
+&lt;link rel="stylesheet" href="shs-calculator.css"&gt;
+
+&lt;!-- Include JavaScript --&gt;
+&lt;script src="shs-calculator.js"&gt;&lt;/script&gt;
+
+&lt;!-- Create container --&gt;
+&lt;div id="my-shs-calculator"&gt;&lt;/div&gt;
+
+&lt;!-- Initialize --&gt;
+&lt;script&gt;
+  const calculator = new SHSCalculator('my-shs-calculator', {
+    language: 'en',  // 'en', 'de', or 'fr'
+    showGauge: true,
+    showConsistency: true
+  });
+
+  // Listen for results
+  document.getElementById('my-shs-calculator')
+    .addEventListener('shs:calculated', (e) => {
+      console.log('SHS Results:', e.detail);
+    });
+&lt;/script&gt;
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>API Methods</h2>
+    <div class="info-box">
+      <strong>Available Methods:</strong>
+      <ul>
+        <li><code>calculator.setLanguage(lang)</code> - Change language ('en', 'de', 'fr')</li>
+        <li><code>calculator.getResults()</code> - Get current results object</li>
+        <li><code>calculator.reset()</code> - Reset form and clear responses</li>
+      </ul>
+    </div>
+    <div class="code-block">
+// Get results programmatically
+const results = calculator.getResults();
+console.log('Overall Score:', results.overall);
+console.log('Breakdown:', results.breakdown);
+
+// Change language
+calculator.setLanguage('de');
+
+// Reset form
+calculator.reset();
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Results Structure</h2>
+    <p>The results object contains:</p>
+    <div class="code-block">
+{
+  overall: -0.5,              // Overall score (-1 to +1)
+  overallConsistency: 0.2,     // Overall consistency score
+  breakdown: [                 // Per-dimension breakdown
+    {
+      dimension: {...},        // Dimension pair info
+      score: -0.5,             // Dimension score
+      consistency: 0.2,        // Dimension consistency
+      label: "Factual Accuracy"
+    },
+    // ... more dimensions
+  ],
+  responses: {                 // Raw responses
+    q1: 2,
+    q2: -2,
+    // ... all 10 questions
+  }
+}
+    </div>
+  </div>
+
+  <script src="shs-calculator.js"></script>
+  <script>
+    // Initialize basic calculator
+    const calculator = new SHSCalculator('shs-calculator-basic', {
+      language: 'en',
+      showGauge: true,
+      showConsistency: true
+    });
+
+    // Listen for calculation events
+    document.getElementById('shs-calculator-basic')
+      .addEventListener('shs:calculated', (e) => {
+        console.log('SHS Results:', e.detail);
+        console.log('Overall Score:', e.detail.overall);
+        console.log('Breakdown:', e.detail.breakdown);
+      });
+  </script>
+</body>
+</html>
+
