@@ -1,6 +1,6 @@
-# Subjective Hallucination Scale (SHS)
+# System Hallucination Scale (SHS)
 
-The **Subjective Hallucination Scale (SHS)** is a lightweight, human-centered evaluation instrument for assessing hallucination tendencies in Large Language Models (LLMs).
+The **System Hallucination Scale (SHS)** is a lightweight, human-centered evaluation instrument for assessing hallucination tendencies in Large Language Models (LLMs).
 
 Inspired by established psychometric tools such as the **System Usability Scale (SUS)** and the **System Causability Scale (SCS)**, SHS provides a fast, interpretable, and domain-agnostic way to capture how humans perceive factual inconsistency, incoherence, and misleading reasoning in model-generated text.
 
@@ -51,5 +51,5 @@ This repository uses dual licensing:
 
 ---
 
-**Subjective Hallucination Scale (SHS)**  
+**System Hallucination Scale (SHS)**  
 Human-centered evaluation of hallucinations in AI systems.
