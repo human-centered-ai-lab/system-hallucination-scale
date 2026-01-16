@@ -8,7 +8,7 @@ Inspired by established psychometric tools such as the **System Usability Scale 
 
 **Müller, H., Steiger, D., Plass, M., & Holzinger, A. (2026).**  
 *"The System Hallucination Scale (SHS): A Minimal yet Effective Human-Centered Instrument for Evaluating Hallucination-Related Behavior in Large Language Models."*  
-In submission. Available at: https://hmmc.at/shs/
+In submission.
 
 ## Theoretical Foundation
 
