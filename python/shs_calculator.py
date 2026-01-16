@@ -2,15 +2,15 @@
 System Hallucination Scale (SHS) Calculator - Python Reference Implementation
 
 This module provides a reference implementation of the SHS scoring algorithm
-as described in the System Hallucination Scale paper (Müller et al., 2024).
+as described in the System Hallucination Scale paper (Müller et al., 2026).
 
 The SHS is a 10-item, 5-point Likert scale instrument for evaluating
 hallucination-related behavior in LLM-generated text.
 
 Reference:
-Müller, H., Steiger, D., Bignens, S., Plass, M., & Holzinger, A. (2024).
+Müller, H., Steiger, D., Plass, M., & Holzinger, A. (2026).
 "The System Hallucination Scale (SHS): A Minimal yet Effective Scale for
-Evaluating Hallucinations in Large Language Models." Preprint.
+Evaluating Hallucinations in Large Language Models." In submission.
 
 @license Apache-2.0
 """

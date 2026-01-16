@@ -301,4 +301,4 @@ A: Use the batch processor or process multiple evaluations programmatically. Eac
 
 ---
 
-**Last updated**: Based on SHS V2-2 (2024)
+**Last updated**: Based on SHS V2-2 (2026)

@@ -354,7 +354,7 @@ app.post('/api/shs/calculate', (req, res) => {
 
 ## References
 
-Müller, H., Steiger, D., Bignens, S., Plass, M., & Holzinger, A. (2024). "The System Hallucination Scale (SHS): A Minimal yet Effective Human-Centered Instrument for Evaluating Hallucination-Related Behavior in Large Language Models." *Preprint*.
+Müller, H., Steiger, D., Plass, M., & Holzinger, A. (2026). "The System Hallucination Scale (SHS): A Minimal yet Effective Human-Centered Instrument for Evaluating Hallucination-Related Behavior in Large Language Models." *In submission*.
 
 Available at: https://hmmc.at/shs/
 
