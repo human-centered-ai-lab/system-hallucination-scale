@@ -50,18 +50,6 @@ For each dimension pair (questions a and b):
 
 **Overall Score**: Average of all 5 dimension scores (range: -1.0 to +1.0)
 
-## Empirical Validation
-
-An evaluation study with **210 participants** demonstrated:
-
-- **High clarity**: 87.2% of evaluators found questions understandable
-- **Relevance**: 83.0% considered questions relevant for LLM evaluation
-- **Appropriate response options**: 93.6% found Likert scale appropriate
-- **Low explanation needs**: 66.0% required no additional explanation
-- **Construct validity**: Coherent response behavior and meaningful score distributions
-
-See the [full paper](System_Hallucination_Scale_SHS_V2-2.pdf) for detailed validation results and methodology.
-
 ## Idea
 
 While hallucinations are widely recognized as a core limitation of modern LLMs, the field still lacks a simple, standardized, and user-facing instrument to assess them systematically.
@@ -164,7 +152,7 @@ system-hallucination-scale/
 
 ## Status
 
-SHS is an active research instrument and continues to evolve. The current version (V2-2) has been validated through empirical evaluation with 210 participants.
+SHS is an active research instrument and continues to evolve.
 
 **Feedback, discussion, and contributions are welcome.**
 
