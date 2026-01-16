@@ -95,6 +95,36 @@ Reset the form and clear all responses.
 calculator.reset();
 ```
 
+#### `exportJSON()`
+
+Export results as JSON string.
+
+```javascript
+const jsonString = calculator.exportJSON();
+console.log(jsonString);
+```
+
+#### `exportCSV(includeBreakdown)`
+
+Export results as CSV string.
+
+```javascript
+const csvString = calculator.exportCSV(true); // Include dimension breakdown
+console.log(csvString);
+```
+
+#### `downloadResults(format, filename)`
+
+Download results as a file (JSON or CSV).
+
+```javascript
+// Download as JSON
+calculator.downloadResults('json', 'my_evaluation');
+
+// Download as CSV
+calculator.downloadResults('csv');
+```
+
 ### Events
 
 The calculator emits a custom event when results are calculated:
@@ -225,7 +255,106 @@ When contributing:
 3. Update documentation
 4. Ensure all tests pass
 
+## Export Functionality
+
+The calculator supports exporting results for further analysis:
+
+### JSON Export
+
+```javascript
+const results = calculator.getResults();
+const json = calculator.exportJSON();
+// Save or send to server
+```
+
+### CSV Export
+
+```javascript
+const csv = calculator.exportCSV(true); // Include dimension breakdown
+// Use for spreadsheet analysis
+```
+
+### File Download
+
+The calculator UI includes export buttons that automatically download results:
+- **Export JSON**: Downloads results as JSON file
+- **Export CSV**: Downloads results as CSV file with dimension breakdown
+
+## Integration Examples
+
+### React Integration
+
+```jsx
+import { useEffect, useRef } from 'react';
+
+function SHSCalculatorComponent() {
+  const containerRef = useRef(null);
+  const calculatorRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current && !calculatorRef.current) {
+      calculatorRef.current = new SHSCalculator(containerRef.current.id, {
+        language: 'en',
+        showGauge: true,
+        showConsistency: true
+      });
+
+      containerRef.current.addEventListener('shs:calculated', (e) => {
+        console.log('SHS Results:', e.detail);
+        // Handle results
+      });
+    }
+  }, []);
+
+  return <div id="shs-container" ref={containerRef} />;
+}
+```
+
+### Vue Integration
+
+```vue
+<template>
+  <div id="shs-container" ref="shsContainer"></div>
+</template>
+
+<script>
+export default {
+  mounted() {
+    this.calculator = new SHSCalculator('shs-container', {
+      language: 'en'
+    });
+
+    this.$el.addEventListener('shs:calculated', (e) => {
+      this.$emit('calculated', e.detail);
+    });
+  },
+  beforeUnmount() {
+    if (this.calculator) {
+      this.calculator.reset();
+    }
+  }
+}
+</script>
+```
+
+### Server-Side Integration
+
+```javascript
+// Express.js example
+app.post('/api/shs/calculate', (req, res) => {
+  const responses = req.body.responses;
+  
+  // Use Python implementation for server-side calculation
+  // Or validate and process responses
+  const result = calculateSHS(responses);
+  
+  res.json(result);
+});
+```
+
 ## References
 
-Müller, H., Steiger, D., Bignens, S., Plass, M., & Holzinger, A. (2024). "The System Hallucination Scale (SHS): A Minimal yet Effective Scale for Evaluating Hallucinations in Large Language Models." *Preprint*.
+Müller, H., Steiger, D., Bignens, S., Plass, M., & Holzinger, A. (2024). "The System Hallucination Scale (SHS): A Minimal yet Effective Human-Centered Instrument for Evaluating Hallucination-Related Behavior in Large Language Models." *Preprint*.
+
+Available at: https://hmmc.at/shs/
 

@@ -64,6 +64,9 @@ class SHSCalculator {
       title: "Subjective Hallucination Scale (SHS) Calculator",
       note: "For each of the 10 questions, choose how much you agree: strongly disagree, disagree, neutral, agree, strongly agree. Then click Calculate to see your score.",
       button: "Calculate SHS",
+      back: "← Back",
+      exportJson: "📥 Export JSON",
+      exportCsv: "📊 Export CSV",
       alert: "Please answer all questions.",
       resultTitles: {
         overall: "Overall Score",
@@ -99,6 +102,9 @@ class SHSCalculator {
       title: "Subjektive Halluzinationsskala (SHS) Rechner",
       note: "Beantworte die 10 Fragen, indem du deinen Grad der Zustimmung wählst: stimme gar nicht zu, stimme nicht zu, neutral, stimme zu, stimme voll zu. Dann klicke auf „Berechne SHS", um deinen Score zu sehen.",
       button: "Berechne SHS",
+      back: "← Zurück",
+      exportJson: "📥 JSON exportieren",
+      exportCsv: "📊 CSV exportieren",
       alert: "Bitte alle Fragen beantworten.",
       resultTitles: {
         overall: "Gesamtscore",
@@ -134,6 +140,9 @@ class SHSCalculator {
       title: "Calculateur d'échelle de hallucination subjective (SHS)",
       note: "Pour chacune des 10 questions, choisissez votre degré d'accord : pas du tout d'accord, pas d'accord, neutre, d'accord, tout à fait d'accord. Cliquez ensuite sur « Calculate » pour voir votre score.",
       button: "Calculer SHS",
+      back: "← Retour",
+      exportJson: "📥 Exporter JSON",
+      exportCsv: "📊 Exporter CSV",
       alert: "Veuillez répondre à toutes les questions.",
       resultTitles: {
         overall: "Score global",
@@ -193,7 +202,9 @@ class SHSCalculator {
       </div>
       <div id="shs-results-${this.container.id}" class="shs-card shs-results">
         <div class="shs-actions" style="margin-top:0;">
-          <button type="button" id="shs-back-${this.container.id}" class="shs-btn secondary">← Back</button>
+          <button type="button" id="shs-back-${this.container.id}" class="shs-btn secondary">${t.back}</button>
+          <button type="button" id="shs-export-json-${this.container.id}" class="shs-btn secondary">${t.exportJson}</button>
+          <button type="button" id="shs-export-csv-${this.container.id}" class="shs-btn secondary">${t.exportCsv}</button>
         </div>
         <div class="shs-result-block">
           <h3 id="overall-title-${this.container.id}">${t.resultTitles.overall}</h3>
@@ -279,6 +290,8 @@ class SHSCalculator {
     const langRoot = document.getElementById(`shs-lang-${this.container.id}`);
     const form = document.getElementById(`shs-form-${this.container.id}`);
     const backBtn = document.getElementById(`shs-back-${this.container.id}`);
+    const exportJsonBtn = document.getElementById(`shs-export-json-${this.container.id}`);
+    const exportCsvBtn = document.getElementById(`shs-export-csv-${this.container.id}`);
 
     if (langRoot) {
       langRoot.addEventListener("click", (e) => {
@@ -298,6 +311,26 @@ class SHSCalculator {
     if (backBtn) {
       backBtn.addEventListener("click", () => {
         this.showForm();
+      });
+    }
+
+    if (exportJsonBtn) {
+      exportJsonBtn.addEventListener("click", () => {
+        try {
+          this.downloadResults('json');
+        } catch (error) {
+          alert('Error exporting JSON: ' + error.message);
+        }
+      });
+    }
+
+    if (exportCsvBtn) {
+      exportCsvBtn.addEventListener("click", () => {
+        try {
+          this.downloadResults('csv');
+        } catch (error) {
+          alert('Error exporting CSV: ' + error.message);
+        }
       });
     }
   }
@@ -582,6 +615,98 @@ class SHSCalculator {
     // Clear all radio buttons
     const radios = this.container.querySelectorAll('input[type="radio"]');
     radios.forEach(radio => radio.checked = false);
+  }
+
+  /**
+   * Export results to JSON format
+   * @returns {string} JSON string of results
+   */
+  exportJSON() {
+    if (!this.results) {
+      throw new Error('No results available. Please calculate scores first.');
+    }
+    return JSON.stringify(this.results, null, 2);
+  }
+
+  /**
+   * Export results to CSV format
+   * @param {boolean} includeBreakdown - Include dimension breakdown in CSV
+   * @returns {string} CSV string
+   */
+  exportCSV(includeBreakdown = true) {
+    if (!this.results) {
+      throw new Error('No results available. Please calculate scores first.');
+    }
+
+    const lines = [];
+    
+    // Header
+    lines.push('Metric,Value');
+    
+    // Overall scores
+    lines.push(`Overall Score,${this.formatValue(this.results.overall)}`);
+    lines.push(`Overall Consistency,${this.formatValue(this.results.overallConsistency)}`);
+    lines.push('');
+    
+    // Responses
+    lines.push('Question,Response');
+    for (let i = 1; i <= 10; i++) {
+      const qid = `q${i}`;
+      lines.push(`${qid},${this.results.responses[qid]}`);
+    }
+    
+    if (includeBreakdown) {
+      lines.push('');
+      lines.push('Dimension,Score,Consistency,Consistency Level');
+      this.results.breakdown.forEach(dim => {
+        const consLevel = Math.abs(dim.consistency) <= SHSCalculator.CONS_VERY_GOOD
+          ? 'Very Good'
+          : Math.abs(dim.consistency) <= SHSCalculator.CONS_GOOD
+            ? 'Good'
+            : 'Inconsistent';
+        lines.push(`${dim.label},${this.formatValue(dim.score)},${this.formatValue(dim.consistency)},${consLevel}`);
+      });
+    }
+    
+    return lines.join('\n');
+  }
+
+  /**
+   * Download results as file
+   * @param {string} format - 'json' or 'csv'
+   * @param {string} filename - Optional filename (without extension)
+   */
+  downloadResults(format = 'json', filename = null) {
+    if (!this.results) {
+      const t = this.getTranslations();
+      alert(t.alert || 'No results available. Please calculate scores first.');
+      return;
+    }
+
+    let content, mimeType, extension;
+    
+    if (format === 'csv') {
+      content = this.exportCSV();
+      mimeType = 'text/csv';
+      extension = 'csv';
+    } else {
+      content = this.exportJSON();
+      mimeType = 'application/json';
+      extension = 'json';
+    }
+
+    const defaultFilename = `shs_results_${new Date().toISOString().split('T')[0]}`;
+    const finalFilename = filename || defaultFilename;
+    
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${finalFilename}.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 }
 
